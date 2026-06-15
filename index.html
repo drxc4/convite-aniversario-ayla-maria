@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aniversário Ayla Maria</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    color:white;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    background:
+    linear-gradient(rgba(82,0,124,.45),rgba(0,0,0,.45)),
+    url("convite.jpg");
+    background-size:cover;
+    background-position:center;
+    z-index:-2;
+}
+
+.bg::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    backdrop-filter:blur(3px);
+}
+
+.particles{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.particle{
+    position:absolute;
+    color:white;
+    font-size:20px;
+    animation:float linear infinite;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(110vh) rotate(0deg);
+    }
+    to{
+        transform:translateY(-120px) rotate(360deg);
+    }
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.glass{
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:25px;
+    padding:30px;
+    width:100%;
+}
+
+.badge{
+    font-size:1.2rem;
+    margin-bottom:10px;
+}
+
+.title{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.subtitle{
+    margin-top:10px;
+    font-size:1.2rem;
+}
+
+.countdown{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:25px;
+}
+
+.box{
+    background:rgba(255,255,255,.15);
+    border-radius:15px;
+    padding:15px;
+}
+
+.box span{
+    display:block;
+    font-size:2rem;
+    font-weight:bold;
+}
+
+.buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:25px;
+    justify-content:center;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:14px 22px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    background:#9c4dff;
+    color:white;
+}
+
+.success{
+    background:#25D366;
+    color:white;
+}
+
+.dark{
+    background:#222;
+    color:white;
+}
+
+.form-card{
+    margin-top:30px;
+    display:none;
+}
+
+.form-card.active{
+    display:block;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+}
+
+.info{
+    margin-top:15px;
+    font-size:.95rem;
+}
+
+.footer{
+    text-align:center;
+    padding:40px 20px;
+}
+
+@media(max-width:600px){
+
+.title{
+    font-size:2.2rem;
+}
+
+.countdown{
+    grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="particles" id="particles"></div>
+
+<div class="container">
+
+<section class="hero">
+
+<div class="glass">
+
+<div class="badge">🌸 Jardim Encantado 🌸</div>
+
+<h1 class="title">Ayla Maria</h1>
+
+<p class="subtitle">
+está completando seu aniversário 🎂
+</p>
+
+<p style="margin-top:10px;">
+📅 11 de Julho • 🕕 18:00 horas
+</p>
+
+<div class="countdown">
+
+<div class="box">
+<span id="dias">0</span>
+Dias
+</div>
+
+<div class="box">
+<span id="horas">0</span>
+Horas
+</div>
+
+<div class="box">
+<span id="minutos">0</span>
+Min
+</div>
+
+<div class="box">
+<span id="segundos">0</span>
+Seg
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button class="btn primary" onclick="abrirMapa()">
+📍 Como Chegar
+</button>
+
+<button class="btn success" onclick="abrirConfirmacao()">
+✅ Confirmar Presença
+</button>
+
+<button class="btn dark" onclick="toggleMusica()">
+🎵 Música
+</button>
+
+</div>
+
+<div class="form-card" id="confirmacao">
+
+<h2 style="margin-bottom:10px;">
+Confirme sua presença
+</h2>
+
+<input
+type="text"
+id="nome"
+placeholder="Digite seu nome"
+>
+
+<input
+type="number"
+id="acompanhantes"
+value="0"
+min="0"
+placeholder="Acompanhantes"
+>
+
+<button
+class="btn success"
+style="width:100%;margin-top:15px;"
+onclick="enviarWhatsApp()">
+Enviar Confirmação
+</button>
+
+<div class="info">
+Ao confirmar, o WhatsApp será aberto automaticamente.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<div class="footer">
+💜 Esperamos você para celebrar esse momento especial 💜
+</div>
+
+<audio id="musica" loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+function abrirMapa(){
+
+window.open(
+'https://maps.google.com/?q=-4.313696,-38.999968',
+'_blank'
+);
+
+}
+
+function abrirConfirmacao(){
+
+document
+.getElementById('confirmacao')
+.classList.toggle('active');
+
+}
+
+function enviarWhatsApp(){
+
+const nome =
+document.getElementById('nome').value.trim();
+
+const acompanhantes =
+document.getElementById('acompanhantes').value;
+
+if(nome === ''){
+alert('Digite seu nome.');
+return;
+}
+
+const numero = '5585996716772';
+
+const mensagem =
+`Olá!
+
+Estou confirmando presença no aniversário da Ayla Maria.
+
+👤 Nome: ${nome}
+👥 Acompanhantes: ${acompanhantes}
+
+Presença confirmada.`;
+
+window.open(
+`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`,
+'_blank'
+);
+
+}
+
+const musica =
+document.getElementById('musica');
+
+let tocando = false;
+
+function toggleMusica(){
+
+if(!tocando){
+musica.play();
+tocando = true;
+}else{
+musica.pause();
+tocando = false;
+}
+
+}
+
+function atualizarContagem(){
+
+const evento =
+new Date('2026-07-11T18:00:00');
+
+const agora =
+new Date();
+
+const diff =
+evento - agora;
+
+if(diff <= 0){
+return;
+}
+
+const dias =
+Math.floor(diff/(1000*60*60*24));
+
+const horas =
+Math.floor(
+(diff%(1000*60*60*24))
+/
+(1000*60*60)
+);
+
+const minutos =
+Math.floor(
+(diff%(1000*60*60))
+/
+(1000*60)
+);
+
+const segundos =
+Math.floor(
+(diff%(1000*60))
+/
+1000
+);
+
+document.getElementById('dias').innerText=dias;
+document.getElementById('horas').innerText=horas;
+document.getElementById('minutos').innerText=minutos;
+document.getElementById('segundos').innerText=segundos;
+
+}
+
+setInterval(atualizarContagem,1000);
+atualizarContagem();
+
+const particles =
+document.getElementById('particles');
+
+const emojis =
+['🌸','🦋','✨','💜'];
+
+for(let i=0;i<35;i++){
+
+const p =
+document.createElement('div');
+
+p.className='particle';
+
+p.innerHTML=
+emojis[Math.floor(Math.random()*emojis.length)];
+
+p.style.left =
+Math.random()*100 + '%';
+
+p.style.animationDuration =
+(10 + Math.random()*20) + 's';
+
+p.style.fontSize =
+(16 + Math.random()*18) + 'px';
+
+p.style.animationDelay =
+Math.random()*10 + 's';
+
+particles.appendChild(p);
+
+}
+
+</script>
+
+</body>
+</html>
